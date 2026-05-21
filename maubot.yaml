@@ -7,4 +7,4 @@ maubot: 0.6.0
 database: false
 config: false
 webapp: false
-license: MIT
+license: AGPLv3

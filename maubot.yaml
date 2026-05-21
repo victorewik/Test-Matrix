@@ -1,9 +1,9 @@
-id: xyz.victorewik.testbot
+id: es.victorewik.testbot
 version: 1.0.0
 modules:
   - test
 main_class: EchoBot
-maubot: 0.10.0
+maubot: 0.6.0
 database: false
 config: false
 webapp: false

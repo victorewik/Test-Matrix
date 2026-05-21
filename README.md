@@ -20,7 +20,7 @@ Test Bot features:
   - Clean UI: Minimalist English interface using professional HTML styling,
     optimized for all Matrix clients (Element, SchildiChat, etc.).
 
-#🛠 Installation
+# 🛠 Installation
 
 1.  Download the testbot.mbp file from the releases section.
 2.  Alternatively, build it yourself by zipping the source files: python3 -m

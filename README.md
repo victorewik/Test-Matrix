@@ -38,7 +38,7 @@ The bot will reply with a detailed report:
 ✅ Test successful
 Message received by server
 
-SENDER USER INFO
+SENDER SERVER INFO
 
   - User: @user:example.com
   - Sender Server: example.com

@@ -28,7 +28,7 @@ Test Bot features:
 3.  Upload the .mbp file to your Maubot management panel.
 4.  Create an instance and link it to your Matrix account.
 
-## 📖 Usage
+# 📖 Usage
 
 Simply type the following in any room where the bot is present: test
 

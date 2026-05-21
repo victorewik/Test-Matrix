@@ -1,7 +1,10 @@
-maubot: 0.1.0
-id: xyz.maubot.echo
-version: 1.4.0
-license: MIT
+id: xyz.victorewik.testbot
+version: 1.0.0
 modules:
-- echo
+  - test
 main_class: EchoBot
+maubot: 0.10.0
+database: false
+config: false
+webapp: false
+license: MIT

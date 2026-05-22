@@ -36,23 +36,23 @@ The bot will reply with a detailed report:
 
 ```
 ✅ Test successful
-Message received by server
+Message received and processed
 
 SENDER SERVER INFO
-
-  - User: @user:example.com
-  - Sender Server: example.com
-  - Sent at: 2026-05-21 04:12:58
-  - Sender IP: 93.184.216.34
-  - Location: United States
+• Server: test.es
+• Sent at: 2026-05-22 05:20:24
+• Public Endpoint IP: xx.xx.xx.xxx
+• Provider: netcup GmbH (Residential / Business)
+• Location: Germany
+• User: @me:test.es
 
 RECEIVER SERVER INFO
-
-  - Latency: 111 ms
-  - Server: victorewik.es
-  - Received at: 2026-05-21 04:12:59
-  - Server IP: XX.XXX.XXX.XX
-  - Location: Spain
+• Server: victorewik.es
+• Server IP: xx.xx.xx.xxx
+• Received at: 2026-05-22 05:20:25
+• Provider: RIMA (Red IP Multi Acceso) (Residential / Business)
+• Location: Spain
+• Latency: 208 ms
 ```
 
 Technical Details

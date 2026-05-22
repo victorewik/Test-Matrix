@@ -11,6 +11,7 @@ from maubot.handlers import event, command
 class EchoBot(Plugin):
     async def get_location_data(self, ip: Optional[str] = None):
         """Gets IP, Country and ISP info."""
+        # Nota: ip-api.com gratuito requiere HTTP. HTTPS es solo para planes Pro.
         url = f"http://ip-api.com/json/{ip}" if ip else "http://ip-api.com/json/"
         try:
             async with self.http.get(url) as resp:
@@ -24,7 +25,6 @@ class EchoBot(Plugin):
             return "N/A", "Unknown", "Unknown Provider"
 
     def resolve_public_endpoint(self, domain: str) -> str:
-        """Resolves the domain IP."""
         try:
             return socket.gethostbyname(domain)
         except Exception:
@@ -39,12 +39,12 @@ class EchoBot(Plugin):
         return "Residential / Business"
 
     async def run_test(self, evt: MessageEvent) -> None:
-        # 1. Capture timing
+        # 1. Ping
         now_ms = int(time() * 1000)
         latency = f"{now_ms - evt.timestamp} ms"
         received_at = datetime.fromtimestamp(now_ms / 1000.0).strftime('%Y-%m-%d %H:%M:%S')
 
-        # 2. Sender Data
+        # 2. Data
         sender_mxid = evt.sender
         sender_domain = sender_mxid.split(':', 1)[1]
         sender_ip = self.resolve_public_endpoint(sender_domain)
@@ -52,27 +52,24 @@ class EchoBot(Plugin):
         sender_type = self.identify_type(sender_isp)
         sent_at = datetime.fromtimestamp(evt.timestamp / 1000.0).strftime('%Y-%m-%d %H:%M:%S')
 
-        # 3. Receiver / Bot Data
         bot_hs_domain = self.client.mxid.split(':', 1)[1]
         bot_hs_ip = self.resolve_public_endpoint(bot_hs_domain)
-        
-        # Get actual hosting data
+        _, bot_hs_loc, bot_hs_isp = await self.get_location_data(bot_hs_ip)
+        bot_hs_type = self.identify_type(bot_hs_isp)
+
         hosting_ip, hosting_loc, hosting_isp = await self.get_location_data()
         hosting_type = self.identify_type(hosting_isp)
-
-        # 4. Logic: Is it remote?
-        # Compare Homeserver IP with Actual Hosting IP
         is_remote = (bot_hs_ip != hosting_ip and bot_hs_ip != "N/A")
 
-        # 5. HTML Construction
+        # 3. Message
         html_body = (
             f"✅ <b>Test successful</b><br/>"
-            f"Message received by server<br/>"
+            f"Message received and processed<br/>"
             f"<br/>"
             f"<b>SENDER SERVER INFO</b><br/>"
             f"• <b>Server:</b> {sender_domain}<br/>"
-            f"• <b>Public Endpoint IP:</b> {sender_ip}<br/>"            
             f"• <b>Sent at:</b> {sent_at}<br/>"
+            f"• <b>Public Endpoint IP:</b> {sender_ip}<br/>"
             f"• <b>Provider:</b> {sender_isp} ({sender_type})<br/>"
             f"• <b>Location:</b> {sender_loc}<br/>"
             f"• <b>User:</b> <code>{sender_mxid}</code><br/>"
@@ -83,16 +80,13 @@ class EchoBot(Plugin):
             html_body += f"⚠️ <b>Note: This bot is hosted on a remote server.</b><br/>"
 
         html_body += f"<b>RECEIVER SERVER INFO</b><br/>"
-        
         if is_remote:
-
             html_body += (
                 f"• <b>Server:</b> {bot_hs_domain}<br/>"
                 f"• <b>Server IP:</b> {bot_hs_ip}<br/>"
                 f"• <b>Hosting IP:</b> {hosting_ip}<br/>"
             )
         else:
-
             html_body += (
                 f"• <b>Server:</b> {bot_hs_domain}<br/>"
                 f"• <b>Server IP:</b> {hosting_ip}<br/>"
@@ -105,7 +99,7 @@ class EchoBot(Plugin):
             f"• <b>Latency:</b> {latency}"
         )
 
-        await evt.respond(html_body, allow_html=True)
+        await evt.reply(html_body, allow_html=True)
 
     @event.on(EventType.ROOM_MESSAGE)
     async def handle_message(self, evt: MessageEvent) -> None:

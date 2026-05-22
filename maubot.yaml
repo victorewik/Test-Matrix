@@ -1,5 +1,5 @@
 id: es.victorewik.testbot
-version: 1.0.0
+version: 1.2.0
 modules:
   - test
 main_class: EchoBot

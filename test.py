@@ -87,8 +87,8 @@ class EchoBot(Plugin):
         if is_remote:
 
             html_body += (
-                f"• <b>Homeserver:</b> {bot_hs_domain}<br/>"
-                f"• <b>Homeserver IP:</b> {bot_hs_ip}<br/>"
+                f"• <b>Server:</b> {bot_hs_domain}<br/>"
+                f"• <b>Server IP:</b> {bot_hs_ip}<br/>"
                 f"• <b>Hosting IP:</b> {hosting_ip}<br/>"
             )
         else:
